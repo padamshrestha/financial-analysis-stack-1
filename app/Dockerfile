@@ -1,4 +1,4 @@
-FROM bde2020/spark-submit:2.3.0-hadoop2.7
+FROM bde2020/spark-submit:2.4.5-hadoop2.7
 
 COPY template.sh /
 COPY requirements.txt /app/requirements.txt
