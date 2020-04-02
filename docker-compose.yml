@@ -10,6 +10,35 @@ x-spark-worker:
 
 services:
 
+    spark-master:
+        image: bde2020/spark-master:2.4.5-hadoop2.7
+        ports: 
+            - 8080:8080
+            - 7077:7077
+        environment: 
+            - ENABLE_INIT_DAEMON=false
+
+    spark-worker-1:
+        <<: *spark-worker
+        ports: 
+            - 8081:8081
+
+    spark-worker-2:
+        <<: *spark-worker
+        ports: 
+            - 8082:8081
+
+    spark-worker-3:
+        <<: *spark-worker
+        ports: 
+            - 8083:8081
+
+    app:
+        build: 
+            context: ./app/.
+        environment: 
+            - ENABLE_INIT_DAEMON=false
+
     namenode:
         image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
         env_file: 
@@ -38,6 +67,8 @@ services:
         image: bde2020/hive:2.3.2-postgresql-metastore
         env_file:
             - ./hadoop-hive.env
+        volumes: 
+            - ./data:/data
         environment:
             HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: jdbc:postgresql://hive-metastore/metastore
             SERVICE_PRECONDITION: hive-metastore:9083
@@ -57,29 +88,14 @@ services:
     hive-metastore-postgresql:
         image: bde2020/hive-metastore-postgresql:2.3.0
 
-    presto-coordinator:
-        image: shawnzhu/prestodb:0.181
+    hue:
+        image: bde2020/hdfs-filebrowser:3.11
+        depends_on: 
+            - hive-server
+        environment:
+            - NAMENODE_HOST=namenode
         ports:
-            - 9090:8080
-
-    spark-master:
-        image: bde2020/spark-master:2.4.5-hadoop2.7
-        ports: 
-            - 8080:8080
-            - 7077:7077
-        environment: 
-            - ENABLE_INIT_DAEMON=false
-
-    spark-worker-1:
-        <<: *spark-worker
-        ports: 
-            - 8081:8081
-
-    app:
-        build: 
-            context: ./app/.
-        environment: 
-            - ENABLE_INIT_DAEMON=false
+            - 8088:8088
 
 volumes:
     namenode:
