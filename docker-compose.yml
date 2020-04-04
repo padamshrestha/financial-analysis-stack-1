@@ -12,66 +12,30 @@ x-spark-worker:
 services:
 
     namenode:
-        image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+        image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
         restart: always
-        ports:
-          - 9870:9870
-          - 9000:9000
         volumes:
           - namenode:/hadoop/dfs/name
         environment:
           - CLUSTER_NAME=test
         env_file:
           - ./local.env
-    
+        ports:
+          - 50070:50070
+
     datanode:
-        image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-        restart: always
-        depends_on: 
-            - namenode
+        image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
         volumes:
             - datanode:/hadoop/dfs/data
-        environment:
-            SERVICE_PRECONDITION: "namenode:9870"
-        env_file:
-            - ./local.env
-      
-    resourcemanager:
-        image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
         restart: always
         depends_on: 
-            - datanode
             - namenode
-        environment:
-            SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
         env_file:
             - ./local.env
-    
-    nodemanager1:
-        image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
-        restart: always
-        depends_on: 
-            - datanode
-            - namenode
-            - resourcemanager
         environment:
-            SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
-        env_file:
-            - ./local.env
-      
-    historyserver:
-        image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
-        restart: always
-        depends_on: 
-            - datanode
-            - namenode
-            - resourcemanager
-        environment:
-            SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
-        volumes:
-            - historyserver:/hadoop/yarn/timeline
-        env_file:
-            - ./local.env
+            SERVICE_PRECONDITION: namenode:50070
+        ports:
+            - 50075:50075
 
     hue:
         image: bde2020/hdfs-filebrowser:3.11
@@ -98,7 +62,7 @@ services:
             - ./local.env
         command: /opt/hive/bin/hive --service metastore
         environment:
-            SERVICE_PRECONDITION: namenode:9000 namenode:9870 datanode:9864 hive-metastore-postgresql:5432
+            SERVICE_PRECONDITION: namenode:50070 datanode:50075 hive-metastore-postgresql:5432
         ports:
             - 9083:9083
 
@@ -131,7 +95,12 @@ services:
         ports: 
             - 8081:8081
 
+    app:
+        build: 
+            context: ./app/.
+        environment: 
+            - ENABLE_INIT_DAEMON=false
+
 volumes:
     namenode:
     datanode:
-    historyserver:
