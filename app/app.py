@@ -1,5 +1,6 @@
-from pyhive import hive
 from os import getenv
+
+from pyhive import hive
 
 def main():
     print("Connecting to Hive")
