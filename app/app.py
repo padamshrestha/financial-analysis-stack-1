@@ -1,1 +1,4 @@
-print("Hello, World!")
+from pyhive import hive
+
+connection = hive.Connection()
+
