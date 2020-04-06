@@ -5,8 +5,11 @@ ENV SPARK_APPLICATION_ARGS "DBX"
 
 RUN apk add build-base g++ python3-dev cyrus-sasl-dev cyrus-sasl-plain
 
+COPY requirements.txt /app/
+RUN cd /app \
+      && pip3 install -r requirements.txt
+
 COPY . /app
-RUN pip3 install -r app/requirements.txt
 
 COPY submit.sh /
 CMD ["/bin/bash", "/submit.sh"]
