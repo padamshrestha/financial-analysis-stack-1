@@ -3,6 +3,7 @@ from os import getenv
 from pyhive import hive
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
+from pyspark.ml.regression import LinearRegression
 
 def get_name(symbol):
     cursor = connection.cursor()
