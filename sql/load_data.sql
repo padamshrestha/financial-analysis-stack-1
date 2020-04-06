@@ -40,7 +40,7 @@ CREATE TABLE stocks (
    low FLOAT,
    adjclose FLOAT
  )
-     PARTITIONED BY (symbol)
+     PARTITIONED BY (symbol VARCHAR(5))
      STORED AS ORC;
 
 INSERT INTO TABLE stocks
