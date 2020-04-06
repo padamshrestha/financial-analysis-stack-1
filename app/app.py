@@ -30,7 +30,13 @@ def make_lr_model(symbol):
     ordinal_dates = date_string_to_ordinal(df.date)
     df = df.withColumn('date', ordinal_dates)
 
-    df.show(5)
+    va = VectorAssembler(inputCols=['adjclose'], outputCol='features')
+    df = va.transform(df)
+
+    lr = LinearRegression(labelCol='date')
+    lr_model = lr.fit(df)
+
+    return lr_model
 
 def get_name(symbol):
     cursor = connection.cursor()
