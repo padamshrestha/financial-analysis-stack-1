@@ -43,58 +43,111 @@ CREATE TABLE stocks (
      PARTITIONED BY (symbol VARCHAR(5))
      STORED AS ORC;
 
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "A";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "B";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "C";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "D";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "E";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "F";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "G";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "H";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "I";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "J";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "K";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "L";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "M";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "N";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "O";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "P";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "Q";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "R";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "S";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "T";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "U";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "V";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "W";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "X";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "Y";
-INSERT INTO TABLE stocks PARTITION (symbol) SELECT * FROM stocks_staging
-    WHERE SUBSTR(symbol, 0, 1) = "Z";
+FROM stocks_staging as stg
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "A"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "B"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "C"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "D"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "E"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "F"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "G"
+        DISTRIBUTE BY symbol
+     INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "H"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "I"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "J"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "K"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "L"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "M"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "N"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "O"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "P"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "Q"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "R"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "S"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "T"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "U"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "V"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "W"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "X"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "Y"
+        DISTRIBUTE BY symbol
+    INSERT INTO stocks PARTITION (symbol)
+        SELECT stg.date_, stg.volume, stg.open, stg.close, stg.high, stg.low, stg.adjclose, stg.symbol
+            WHERE SUBSTR(symbol, 0, 1) = "Z"
+        DISTRIBUTE BY symbol;
 
 -- 4. Delete now unnecessary staging table
 
