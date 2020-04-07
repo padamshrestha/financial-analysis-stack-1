@@ -11,6 +11,16 @@ x-spark-worker:
 
 services:
 
+    redis:
+        image: redis:latest
+        command: /usr/local/etc/redis/redis.conf
+        restart: always
+        ports: 
+            - 6379:6379
+        volumes: 
+            - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+            - redis:/data
+
     namenode:
         image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
         restart: always
@@ -106,3 +116,4 @@ services:
 volumes:
     namenode:
     datanode:
+    redis:
