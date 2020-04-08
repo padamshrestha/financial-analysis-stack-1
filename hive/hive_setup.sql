@@ -16,7 +16,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS stocks (
     STORED AS TEXTFILE
     TBLPROPERTIES ("skip.header.line.count"="1");
 
-LOAD DATA LOCAL INPATH '/data/stock_histories.csv'
+LOAD DATA LOCAL INPATH '/data/stock_histories.csv.gz'
     OVERWRITE INTO TABLE stocks;
 
 CREATE TABLE IF NOT EXISTS symbol_descriptions (
