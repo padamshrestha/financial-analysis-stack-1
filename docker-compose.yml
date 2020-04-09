@@ -109,9 +109,10 @@ services:
     app:
         build: 
             context: ./app/.
+        env_file:
+            - ./app.env
         environment: 
             - ENABLE_INIT_DAEMON=false
-            - SPARK_APPLICATION_ARGS=DBX 2021-04-10
 
 volumes:
     namenode:
