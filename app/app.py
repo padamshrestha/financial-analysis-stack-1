@@ -1,7 +1,5 @@
-from argparse import ArgumentParser
 from os import getenv
 from datetime import date
-from struct import unpack
 
 from redis import Redis
 from pyhive import hive
@@ -102,14 +100,9 @@ def format_currency(price):
         return '-$' + digits
 
 def main():
-    parser = ArgumentParser()
-    parser.add_argument('symbol',
-                        help="Stock listing to model for")
-    parser.add_argument('date',
-                        type=date.fromisoformat,
-                        help="Predict stock's price at <yyyy-mm-dd>")
-    args_env = getenv('SPARK_APPLICATION_ARGS').split(sep=' ')
-    args = parser.parse_args(args_env)
+    symbol = getenv('APP_SYMBOL')
+    date_ = date.fromisoformat(getenv('APP_DATE'))
+    print("symbol: %s, date: %s" % (symbol, str(date)))
 
     global r, connection, sc, spark
     print("Connecting to Redis")
@@ -120,10 +113,10 @@ def main():
     sc = SparkContext.getOrCreate()
     spark = SparkSession(sc)
 
-    name = get_name(args.symbol)
-    print("Finding stock history of %s (%s)" % (name, args.symbol))
+    name = get_name(symbol)
+    print("Finding stock history of %s (%s)" % (name, symbol))
 
-    lr_model = make_lr_model(args.symbol)
+    lr_model = make_lr_model(symbol)
     lr_summary = lr_model.summary
     print("Successfully built linear regression model\n",
           "\t" + "Coefficient:\t%f" % lr_model.coefficients[0] + "\n",
@@ -131,11 +124,11 @@ def main():
           "\t" + "RMSE:       \t%f" % lr_summary.rootMeanSquaredError + "\n",
           "\t" + "r2:         \t%f" % lr_summary.r2)
 
-    close = predict_close(lr_model, args.date.toordinal())
+    close = predict_close(lr_model, date_.toordinal())
     close_f = format_currency(close)
-    date_f = args.date.strftime('%b %d %Y')
+    date_f = date_.strftime('%b %d %Y')
     print("Estimated price of %s at %s:\t%s"
-          % (args.symbol, date_f, close_f))
+          % (symbol, date_f, close_f))
 
 if __name__ == "__main__":
     print("Starting application")
