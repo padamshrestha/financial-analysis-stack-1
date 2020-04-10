@@ -1,5 +1,9 @@
 version: '2.4'
 
+# Service templates are available below
+# The prvided templates allow you to use multiple datanode and workers
+
+# Datanode template
 x-datanode: 
     &datanode
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
@@ -11,6 +15,7 @@ x-datanode:
     environment:
         SERVICE_PRECONDITION: namenode:50070
 
+# Spark Worker template
 x-spark-worker: 
     &spark-worker
     image: bde2020/spark-worker:2.4.5-hadoop2.7
@@ -44,10 +49,19 @@ services:
         ports:
           - 50070:50070
 
+    
     datanode-1:
         <<: *datanode
+        # You must add a volume to each of the 
+        # Datanode templates you define
         volumes:
             - datanode1:/hadoop/dfs/data
+
+    # Example Datanode template
+    # datanode-2:
+    #     <<: *datanode
+    #     volumes:
+    #         - datanode2:/hadoop/dfs/data
 
     hue:
         image: bde2020/hdfs-filebrowser:3.11
@@ -106,6 +120,10 @@ services:
     spark-worker-1:
         <<: *spark-worker
 
+    # Example Spark Worker template
+    # spark-worker-2:
+    #     <<: *spark-worker
+
     app:
         build: 
             context: ./app/.
@@ -123,4 +141,6 @@ services:
 volumes:
     namenode:
     datanode1:
+    # Example Datanode volumen
+    # datanode2 
     redis:
